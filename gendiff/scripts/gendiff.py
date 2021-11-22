@@ -3,9 +3,12 @@ import json
 
 
 parser = argparse.ArgumentParser(description='Generate diff', prog='gendiff')
-parser.add_argument('first_file', metavar='first_file', help='path to first_file')
-parser.add_argument('second_file', metavar='second_file', help='path to second_file')
-parser.add_argument('-f', '--format', dest='FORMAT', help='set format of output')
+parser.add_argument('first_file', metavar='first_file',
+                    help='path to first_file')
+parser.add_argument('second_file', metavar='second_file',
+                    help='path to second_file')
+parser.add_argument('-f', '--format', dest='FORMAT',
+                    help='set format of output')
 
 args = parser.parse_args()
 
@@ -21,7 +24,8 @@ def generate_diff(first_file, second_file) -> str:
     for key in accum_keys:
         if key in first_file and key in second_file:
             if first_file[key] != second_file[key]:
-                result += f'    - {key}: {first_file[key]}\n    + {key}: {second_file[key]}\n'
+                result += f'    - {key}: {first_file[key]}\n    ' \
+                          f'+ {key}: {second_file[key]}\n'
             else:
                 result += f'      {key}: {first_file[key]}\n'
         elif key in first_file:
