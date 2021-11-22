@@ -1,8 +1,8 @@
 install:
 	poetry install
 
-brain-games:
-	poetry run brain-games
+gendiff:
+	poetry run gendiff -h
 
 build:
 	poetry build
