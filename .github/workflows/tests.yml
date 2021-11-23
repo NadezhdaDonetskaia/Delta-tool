@@ -1,0 +1,13 @@
+name: pytest
+on: push
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          pip install pytest
+      - name: Run pytest
+        run: pytest
