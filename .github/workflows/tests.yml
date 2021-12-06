@@ -9,5 +9,6 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install pytest
+          pip install pytest-cov
       - name: Run pytest
-        run: pytest
+        run: pytest --cov=gendiff
