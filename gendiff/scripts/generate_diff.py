@@ -18,7 +18,7 @@ def read_file(path: str):
         return yaml.safe_load(open(path))
 
 
-def generate_diff(first_file, second_file) -> str:
+def generate_diff(first_file: str, second_file: str, spaces_count=0) -> str:
     first_file = read_file(first_file)
     second_file = read_file(second_file)
     accum_keys = first_file.copy()
@@ -29,13 +29,13 @@ def generate_diff(first_file, second_file) -> str:
     for key in accum_keys:
         if key in first_file and key in second_file:
             if first_file[key] != second_file[key]:
-                result += f'    - {key}: {first_file[key]}\n    ' \
-                          f'+ {key}: {second_file[key]}\n'
+                result += f'{spaces_count*" "}  - {key}: {first_file[key]}\n' \
+                          f'{spaces_count*" "}  + {key}: {second_file[key]}\n'
             else:
-                result += f'      {key}: {first_file[key]}\n'
+                result += f'{spaces_count*" "}    {key}: {first_file[key]}\n'
         elif key in first_file:
-            result += f'    - {key}: {first_file[key]}\n'
+            result += f'{spaces_count*" "}  - {key}: {first_file[key]}\n'
         else:
-            result += f'    + {key}: {second_file[key]}\n'
+            result += f'{spaces_count*" "}  + {key}: {second_file[key]}\n'
     result += '}'
     return result
