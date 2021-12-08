@@ -18,13 +18,15 @@ def read_file(path: str):
         return yaml.safe_load(open(path))
 
 
-def stylish(dict_, spaces_count=0):
+def stylish(dict_, spaces_count=0):  # noqa: <error code>
     result = '{\n'
-    sorted_keys = sorted(dict_.keys(), key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
+    sorted_keys = sorted(dict_.keys(),
+                         key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
     for key in sorted_keys:
         if key[:2] in ('+ ', '- ', '  '):
             if isinstance(dict_[key], dict):
-                result += f'{(spaces_count + 2) * " "}{key}: {stylish(dict_[key], spaces_count + 4)}\n'
+                result += f'{(spaces_count + 2) * " "}{key}: ' \
+                          f'{stylish(dict_[key], spaces_count + 4)}\n'
             else:
                 if dict_[key] is False:
                     result += f'{(spaces_count + 2) * " "}{key}: false\n'
@@ -38,7 +40,8 @@ def stylish(dict_, spaces_count=0):
                     result += f'{(spaces_count + 2) * " "}{key}: {dict_[key]}\n'
         else:
             if isinstance(dict_[key], dict):
-                result += f'{(spaces_count + 4) * " "}{key}: {stylish(dict_[key], spaces_count + 4)}\n'
+                result += f'{(spaces_count + 4) * " "}{key}: ' \
+                          f'{stylish(dict_[key], spaces_count + 4)}\n'
             else:
                 if dict_[key] is False:
                     result += f'{(spaces_count + 4) * " "}{key}: false\n'
@@ -54,7 +57,7 @@ def stylish(dict_, spaces_count=0):
     return result
 
 
-def generate_diff(first_file: str, second_file: str) -> str:
+def generate_diff(first_file: str, second_file: str, format) -> str:  # noqa: <error code>
     first_file = read_file(first_file)
     second_file = read_file(second_file)
 
@@ -63,7 +66,8 @@ def generate_diff(first_file: str, second_file: str) -> str:
         all_keys = set(list(dict1.keys()) + list(dict2.keys()))
         for key in all_keys:
             if key in dict1 and key in dict2:
-                if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                if isinstance(dict1[key], dict)\
+                        and isinstance(dict2[key], dict):
                     result[key] = diff_of_dicts(dict1[key], dict2[key])
                 else:
                     if dict1[key] == dict2[key]:
@@ -76,4 +80,5 @@ def generate_diff(first_file: str, second_file: str) -> str:
             else:
                 result[f'+ {key}'] = dict2[key]
         return result
-    return stylish(diff_of_dicts(first_file, second_file))
+    if format == 'stylish':
+        return stylish(diff_of_dicts(first_file, second_file))
