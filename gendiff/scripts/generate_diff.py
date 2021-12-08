@@ -18,55 +18,62 @@ def read_file(path: str):
         return yaml.safe_load(open(path))
 
 
+def stylish(dict_, spaces_count=0):
+    result = '{\n'
+    sorted_keys = sorted(dict_.keys(), key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
+    for key in sorted_keys:
+        if key[:2] in ('+ ', '- ', '  '):
+            if isinstance(dict_[key], dict):
+                result += f'{(spaces_count + 2) * " "}{key}: {stylish(dict_[key], spaces_count + 4)}\n'
+            else:
+                if dict_[key] is False:
+                    result += f'{(spaces_count + 2) * " "}{key}: false\n'
+                elif dict_[key] is True:
+                    result += f'{(spaces_count + 2) * " "}{key}: true\n'
+                elif dict_[key] is None:
+                    result += f'{(spaces_count + 2) * " "}{key}: null\n'
+                elif not dict_[key]:
+                    result += f'{(spaces_count + 2) * " "}{key}:\n'
+                else:
+                    result += f'{(spaces_count + 2) * " "}{key}: {dict_[key]}\n'
+        else:
+            if isinstance(dict_[key], dict):
+                result += f'{(spaces_count + 4) * " "}{key}: {stylish(dict_[key], spaces_count + 4)}\n'
+            else:
+                if dict_[key] is False:
+                    result += f'{(spaces_count + 4) * " "}{key}: false\n'
+                elif dict_[key] is True:
+                    result += f'{(spaces_count + 4) * " "}{key}: true\n'
+                elif dict_[key] is None:
+                    result += f'{(spaces_count + 4) * " "}{key}: null\n'
+                elif not dict_[key]:
+                    result += f'{(spaces_count + 4) * " "}{key}:\n'
+                else:
+                    result += f'{(spaces_count + 4) * " "}{key}: {dict_[key]}\n'
+    result += ' ' * spaces_count + '}'
+    return result
+
+
 def generate_diff(first_file: str, second_file: str) -> str:
     first_file = read_file(first_file)
     second_file = read_file(second_file)
 
-    def dict_to_str(dict_, spaces_count=0):
-        result = '{\n'
-        for key in dict_:
-            if isinstance(dict_[key], dict):
-                result += f'{spaces_count*" "}    {key}: {dict_to_str(dict_[key], spaces_count+4)}\n'
-            else:
-                result += f'{spaces_count*" "}    {key}: {dict_[key]}\n'
-        result += ' ' * spaces_count + '}'
-        return result
-
-    def diff_to_str(ff: dict, sf: dict, spaces_count=0) -> str:
-        accum_keys = ff.copy()
-        accum_keys.update(sf)
-        accum_keys = [el for el in accum_keys]
-        accum_keys.sort()
-        result = '{\n'
-        for key in accum_keys:
-            if key in ff and key in sf:  # если значение не dict!!!
-                if ff[key] != sf[key]:
-                    if isinstance(ff[key], dict) and isinstance(sf[key], dict):
-                        result += f'{spaces_count*" "}    {key}: {diff_to_str(ff[key], sf[key], spaces_count + 4)}\n'
+    def diff_of_dicts(dict1, dict2):
+        result = dict()
+        all_keys = set(list(dict1.keys()) + list(dict2.keys()))
+        for key in all_keys:
+            if key in dict1 and key in dict2:
+                if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                    result[key] = diff_of_dicts(dict1[key], dict2[key])
+                else:
+                    if dict1[key] == dict2[key]:
+                        result[key] = dict1[key]
                     else:
-                        if isinstance(ff[key], dict):
-                            result += f'{spaces_count*" "}  - {key}: {dict_to_str(ff[key], spaces_count + 4)}\n' \
-                                      f'{spaces_count*" "}  + {key}: {sf[key]}\n'
-                        else:
-                            result += f'{spaces_count*" "}  - {key}: {ff[key]}\n' \
-                                      f'{spaces_count*" "}  + {key}: {sf[key]}\n'
-                else:
-                    if isinstance(ff[key], dict):
-                        result += f'{spaces_count*" "}    {key}: {dict_to_str(ff[key], spaces_count + 4)}\n'
-                    else:
-                        result += f'{spaces_count*" "}    {key}: {ff[key]}\n'
-            elif key in ff:
-                if isinstance(ff[key], dict):
-                    result += f'{spaces_count*" "}  - {key}: {dict_to_str(ff[key], spaces_count + 4)}\n'
-                else:
-                    result += f'{spaces_count*" "}  - {key}: {ff[key]}\n'
+                        result[f'- {key}'] = dict1[key]
+                        result[f'+ {key}'] = dict2[key]
+            elif key in dict1:
+                result[f'- {key}'] = dict1[key]
             else:
-                if isinstance(sf[key], dict):
-                    result += f'{spaces_count*" "}  + {key}: {dict_to_str(sf[key], spaces_count + 4)}\n'
-                else:
-                    result += f'{spaces_count*" "}  + {key}: {sf[key]}\n'
-        result += ' ' * spaces_count + '}'
+                result[f'+ {key}'] = dict2[key]
         return result
-
-    return diff_to_str(first_file, second_file)
-
+    return stylish(diff_of_dicts(first_file, second_file))
