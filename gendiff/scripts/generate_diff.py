@@ -2,6 +2,7 @@
 import json
 import yaml
 from .format_output.stylish import stylish
+from .format_output.plain import plain
 
 
 def is_json(path: str) -> bool:
@@ -47,3 +48,5 @@ def generate_diff(first_file: str, second_file: str, format) -> str:  # noqa: <e
         return result
     if format == 'stylish':
         return stylish(diff_of_dicts(first_file, second_file))
+    elif format == 'plain':
+        return plain(diff_of_dicts(first_file, second_file))

@@ -14,11 +14,11 @@ second_branching_file = os.path.join(dirname, 'fixtures/file2_branching.json')
 first_yaml_branching_file = os.path.join(dirname, 'fixtures/file1_branching.yaml')
 second_yaml_branching_file = os.path.join(dirname, 'fixtures/file2_branching.yml')
 parameters_mark = [
-    (first_json_file, second_json_file, 'stylish', 'fixtures/answer_for_flat'),
-    (first_json_file, second_json_file, 'plain', 'fixtures/answer_for_plain_branching'),
-    (first_yaml_file, second_yaml_file, 'stylish', 'fixtures/answer_for_flat'),
-    (first_branching_file, second_branching_file, 'stylish', 'fixtures/answer_for_branching'),
-    (first_yaml_branching_file, second_yaml_branching_file, 'stylish', 'fixtures/answer_for_branching'),
+    (first_json_file, second_json_file, 'stylish', 'fixtures/answer_for_stylish_flat'),
+    (first_yaml_file, second_yaml_file, 'stylish', 'fixtures/answer_for_stylish_flat'),
+    (first_branching_file, second_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
+    (first_branching_file, second_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
+    (first_yaml_branching_file, second_yaml_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
 ]
 
 
