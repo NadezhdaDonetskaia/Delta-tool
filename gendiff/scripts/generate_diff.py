@@ -22,7 +22,7 @@ def read_file(path: str):
 
 
 
-def generate_diff(first_file: str, second_file: str, format) -> str:  # noqa: <error code>
+def generate_diff(first_file: str, second_file: str, format='stylish') -> str:  # noqa: <error code>
     first_file = read_file(first_file)
     second_file = read_file(second_file)
 
