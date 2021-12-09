@@ -13,19 +13,21 @@ first_branching_file = os.path.join(dirname, 'fixtures/file1_branching.json')
 second_branching_file = os.path.join(dirname, 'fixtures/file2_branching.json')
 first_yaml_branching_file = os.path.join(dirname, 'fixtures/file1_branching.yaml')
 second_yaml_branching_file = os.path.join(dirname, 'fixtures/file2_branching.yml')
+
 parameters_mark = [
     (first_json_file, second_json_file, 'stylish', 'fixtures/answer_for_stylish_flat'),
     (first_yaml_file, second_yaml_file, 'stylish', 'fixtures/answer_for_stylish_flat'),
     (first_branching_file, second_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
     (first_branching_file, second_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
     (first_yaml_branching_file, second_yaml_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
+    (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json')
 ]
 
 
-@pytest.mark.parametrize(('first_file, second_file, format, answer'), parameters_mark)
-def test_generate_diff_json(first_file, second_file, format, answer):
+@pytest.mark.parametrize(('ff, sf, format, answer'), parameters_mark)
+def test_generate_diff_json(ff, sf, format, answer):
     answer = open(os.path.join(dirname, answer))
-    assert generate_diff(first_file, second_file, format) == answer.read()
+    assert generate_diff(ff, sf, format) == answer.read()
 
 
 #  надо ли делать проверку на пустой файл? если да, то какие условия выхода пустого файла?

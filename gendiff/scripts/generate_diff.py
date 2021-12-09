@@ -3,6 +3,7 @@ import json
 import yaml
 from .format_output.stylish import stylish
 from .format_output.plain import plain
+from .format_output.output_to_json import output_to_json
 
 
 def is_json(path: str) -> bool:
@@ -18,8 +19,6 @@ def read_file(path: str):
         return json.load(open(path))
     if is_yaml(path):
         return yaml.safe_load(open(path))
-
-
 
 
 
@@ -50,3 +49,5 @@ def generate_diff(first_file: str, second_file: str, format) -> str:  # noqa: <e
         return stylish(diff_of_dicts(first_file, second_file))
     elif format == 'plain':
         return plain(diff_of_dicts(first_file, second_file))
+    elif format == 'json':
+        return output_to_json(diff_of_dicts(first_file, second_file))
