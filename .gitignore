@@ -3,4 +3,4 @@ dist
 __pycache__/
 .idea/
 .coverage
-coverage.json
+coverage.*
