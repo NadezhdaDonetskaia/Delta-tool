@@ -9,12 +9,10 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install pytest
-          pip install pytest-cov
+          pip install coverage
 
       - uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
         with:
-          coverageCommand: pytest --cov-report term --cov=gendiff
-#      - name: Run pytest
-#        run: pytest --cov-report term --cov==gendiff
+          coverageCommand: coverage run -m pytest
