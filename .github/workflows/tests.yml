@@ -2,8 +2,6 @@ name: pytest
 on: push
 jobs:
   test:
-    docker:
-      - image: <nella611@yandex.ru>/tutorial_ci
     steps:
       - checkout
       - run:
