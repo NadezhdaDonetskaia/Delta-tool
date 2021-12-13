@@ -9,15 +9,34 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install pytest
-          pip install coverage
+#          pip install coverage
+          pip install pytest-cov
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+      install:
+        - pip install -r requirements.txt
+      addons:
+        postgresql: "9.5"
+      services:
+        - redis-server
+      env:
+        global:
+          - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+          - CODECLIMATE_REPO_TOKEN=[token]
+          - CC_TEST_REPORTER_ID=c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
       - name: Test
         run: |
-          coverage run -m pytest
-          coverage xml
-      - uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
-        with:
-          coverageLocations: |
-            ${{github.workspace}}/coverage.xml:coverage.py
+          pytest --cov-report term-missing --cov=gendiff
+          pytest --cov-report xml:cov.xml
+
+#        run: |
+#          coverage run -m pytest
+#          coverage xml
+#      - uses: paambaati/codeclimate-action@v3.0.0
+#        env:
+#          CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
+#        with:
+#          coverageLocations: |
+#            ${{github.workspace}}/coverage.xml:coverage.py
 

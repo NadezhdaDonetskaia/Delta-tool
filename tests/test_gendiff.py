@@ -20,7 +20,7 @@ parameters_mark = [
     (first_branching_file, second_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
     (first_branching_file, second_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
     (first_yaml_branching_file, second_yaml_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
-    # (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json')
+    (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json')
 ]
 
 
