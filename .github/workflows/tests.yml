@@ -1,23 +1,6 @@
 name: pytest
 on: push
 jobs:
-  test:
-    steps:
-      - run:
-         name: Setup Code Climate test-reporter
-         command: |
-          # download test reporter as a static binary
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-      - run:
-          name: Run tests
-          command: |
-            python -m pytest --cov-report xml --cov-report term --cov .
-      - run:
-          name: Send coverage to Code Climate
-          command: |
-            ./cc-test-reporter after-build --exit-code $?
   push:
     runs-on: ubuntu-latest
     steps:
@@ -27,5 +10,10 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-      - name: Run pytest
-        run: pytest --cov=gendiff
+      - uses: paambaati/codeclimate-action@v2.2.4
+        env:
+          CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
+        with:
+          coverageCommand: pytest --cov-report term --cov==gendiff
+#      - name: Run pytest
+#        run: pytest --cov-report term --cov==gendiff
