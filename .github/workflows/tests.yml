@@ -13,8 +13,6 @@ jobs:
           pip install pytest
           pip install pytest-cov
       - uses: paambaati/codeclimate-action@v3.0.0
-        addons:
-          postgresql: "9.6"
         services:
           - postgresql
         install:
