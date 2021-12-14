@@ -1,8 +1,7 @@
 name: pytest
 on: push
 env:
-  global:
-    CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
+  CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
 jobs:
   push:
     runs-on: ubuntu-latest
