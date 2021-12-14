@@ -42,14 +42,14 @@ jobs:
 
       - name: Create Reporter
         run: |
-          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          - chmod +x ./cc-test-reporter
-          - ./cc-test-reporter before-build
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
       - name: Test
         run: |
-          - pytest --cov-report term-missing --cov=gendiff
+          pytest --cov-report term-missing --cov=gendiff
       - name: Sending Reporter
         run: |
-          - pytest --cov-report xml:cov.xml
-          - ./cc-test-reporter after-build
+          pytest --cov-report xml:cov.xml
+          ./cc-test-reporter after-build
 
