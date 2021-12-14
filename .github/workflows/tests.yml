@@ -16,10 +16,15 @@ jobs:
         run: |
           - pip install -r requirements_common.txt
           - npm install
+      - name: Create Reporter
+        run: |
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           - chmod +x ./cc-test-reporter
           - ./cc-test-reporter before-build
+      - name: Test
+        run: |
           - pytest --cov-report term-missing --cov=gendiff
+      - name: Sending Reporter
           - pytest --cov-report xml:cov.xml
           - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
