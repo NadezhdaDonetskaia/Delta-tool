@@ -9,7 +9,6 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install pytest
-#          pip install coverage
           pip install pytest-cov
       - uses: paambaati/codeclimate-action@v3.0.0
         env:
