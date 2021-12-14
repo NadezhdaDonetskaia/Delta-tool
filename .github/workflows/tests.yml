@@ -13,16 +13,13 @@ jobs:
           pip install pytest
           pip install pytest-cov
       - uses: paambaati/codeclimate-action@v3.0.0
-        run:
+        run: |
           - pip install -r requirements_common.txt
           - npm install
-        before_script:
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           - chmod +x ./cc-test-reporter
           - ./cc-test-reporter before-build
-        script:
           - pytest --cov-report term-missing --cov=gendiff
-        after_script:
           - pytest --cov-report xml:cov.xml
           - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
