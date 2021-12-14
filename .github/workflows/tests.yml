@@ -1,7 +1,33 @@
+#version: 2.1
+#jobs:
+#  test:
+#    docker:
+#      - image: <your_user_name>/tutorial_ci
+#    steps:
+#      - checkout
+#      - run:
+#         name: Setup Code Climate test-reporter
+#         command: |
+#          # download test reporter as a static binary
+#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#            chmod +x ./cc-test-reporter
+#            ./cc-test-reporter before-build
+#      - run:
+#          name: Run tests
+#          command: |
+#            python -m pytest --cov-report xml --cov-report term --cov .
+#      - run:
+#          name: Send coverage to Code Climate
+#          command: |
+#            ./cc-test-reporter after-build --exit-code $?
+#workflows:
+#  test:
+#    jobs:
+#      - test
+
+
 name: pytest
 on: push
-env:
-  CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -12,10 +38,8 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-      - uses: paambaati/codeclimate-action@v3.0.0
-        run: |
-          - pip install -r requirements_common.txt
-          - npm install
+      # - uses: paambaati/codeclimate-action@v3.0.0
+
       - name: Create Reporter
         run: |
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -26,20 +50,5 @@ jobs:
           - pytest --cov-report term-missing --cov=gendiff
       - name: Sending Reporter
           - pytest --cov-report xml:cov.xml
-          - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
-
-#      - name: Test
-#        run: |
-#          pytest --cov-report term-missing --cov=gendiff
-#          pytest --cov-report xml:cov.xml
-
-#        run: |
-#          coverage run -m pytest
-#          coverage xml
-#      - uses: paambaati/codeclimate-action@v3.0.0
-#        env:
-#          CC_TEST_REPORTER_ID: c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
-#        with:
-#          coverageLocations: |
-#            ${{github.workspace}}/coverage.xml:coverage.py
+          - ./cc-test-reporter after-build
 
