@@ -47,9 +47,9 @@ jobs:
           ./cc-test-reporter before-build
       - name: Test
         run: |
-          pytest --cov-report term-missing --cov=gendiff || true
+          pytest --cov-report term-missing --cov=gendiff
       - name: Sending Reporter
         run: |
-          pytest --cov-report xml:cov.xml || true
+          pytest --cov-report xml:cov.xml
           ./cc-test-reporter after-build
 
