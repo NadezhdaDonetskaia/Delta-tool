@@ -50,6 +50,6 @@ jobs:
           pytest --cov-report term-missing --cov=gendiff || true
       - name: Sending Reporter
         run: |
-          pytest --cov-report xml:cov.xml
+          pytest --cov-report xml:cov.xml || true
           ./cc-test-reporter after-build
 
