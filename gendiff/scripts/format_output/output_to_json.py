@@ -22,16 +22,12 @@ def output_to_json(dict_, spaces_count=0):  # noqa: <error code>
                          key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
     for key in sorted_keys:
         if key[:2] in ('+ ', '- '):
-            if key[:1] == '+':
-                pref = '+ '
-            else:
-                pref = '- '
             if isinstance(dict_[key], dict):
-                result += f'{(spaces_count) * " "}{pref}"{key[2:]}": ' \
+                result += f'{(spaces_count) * " "}"{key}": ' \
                           f'{output_to_json(dict_[key], spaces_count + 2)},\n'
             else:
                 value = type_of_value(dict_[key])
-                result += f'{(spaces_count) * " "}{pref}"{key[2:]}": {value},\n'
+                result += f'{(spaces_count) * " "}"{key}": {value},\n'
         else:
             if isinstance(dict_[key], dict):
                 result += f'{(spaces_count + 2) * " "}"{key}": ' \
