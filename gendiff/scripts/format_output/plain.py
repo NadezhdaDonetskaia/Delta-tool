@@ -18,7 +18,7 @@ def type_of_value(value):
     return result_value
 
 
-def plain(dict_, path=''):
+def plain(dict_, path='', child=False):
     result = ''
     sorted_keys = sorted(dict_.keys(),
                          key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
@@ -36,5 +36,7 @@ def plain(dict_, path=''):
                       f"was added with value: {value}\n"
         else:
             if isinstance(dict_[key], dict):
-                result += plain(dict_[key], path=path + f'{key}.')
+                result += plain(dict_[key], path=path + f'{key}.', child=True)
+    if not child:
+        result = result[:-1]
     return result
