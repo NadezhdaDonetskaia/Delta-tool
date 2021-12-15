@@ -5,10 +5,8 @@ def type_of_value(value):
         result = 'false'
     elif value is True:
         result = 'true'
-    elif value is None:
-        result = 'null'
     elif not value:
-        result = None
+        result = 'null'
     else:
         result = f'"{value}"'
     return result
