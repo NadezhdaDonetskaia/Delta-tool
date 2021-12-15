@@ -11,8 +11,10 @@ def type_of_value(value):
             result_value = 'false'
     elif value is None:
         result_value = 'null'
-    else:
+    elif isinstance(value, str):
         result_value = f"'{value}'"
+    else:
+        result_value = value
     return result_value
 
 
