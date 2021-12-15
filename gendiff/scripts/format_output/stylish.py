@@ -16,6 +16,8 @@ def type_of_value(value):
 
 
 def stylish(dict_, spaces_count=0):  # noqa: <error code>
+    if not dict_:
+        return {}
     result = '{\n'
     sorted_keys = sorted(dict_.keys(),
                          key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
@@ -26,19 +28,13 @@ def stylish(dict_, spaces_count=0):  # noqa: <error code>
                           f'{stylish(dict_[key], spaces_count + 4)}\n'
             else:
                 value = type_of_value(dict_[key])
-                # if value:
                 result += f'{(spaces_count + 2) * " "}{key}: {value}\n'
-                # else:
-                #     result += f'{(spaces_count + 2) * " "}{key}:\n'
         else:
             if isinstance(dict_[key], dict):
                 result += f'{(spaces_count + 4) * " "}{key}: ' \
                           f'{stylish(dict_[key], spaces_count + 4)}\n'
             else:
                 value = type_of_value(dict_[key])
-                # if value:
                 result += f'{(spaces_count + 4) * " "}{key}: {value}\n'
-                # else:
-                #     result += f'{(spaces_count + 4) * " "}{key}:\n'
     result += ' ' * spaces_count + '}'
     return result

@@ -19,6 +19,8 @@ def type_of_value(value):
 
 
 def plain(dict_, path='', child=False):  # noqa: <error code>
+    if not dict_:
+        return {}
     result = ''
     sorted_keys = sorted(dict_.keys(),
                          key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
