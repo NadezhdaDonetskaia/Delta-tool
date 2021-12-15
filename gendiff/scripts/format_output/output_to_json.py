@@ -15,6 +15,8 @@ def type_of_value(value):
 
 
 def output_to_json(dict_, spaces_count=0):  # noqa: <error code>
+    if not dict_:
+        return {}
     result = '{\n'
     sorted_keys = sorted(dict_.keys(),
                          key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
@@ -26,24 +28,17 @@ def output_to_json(dict_, spaces_count=0):  # noqa: <error code>
                 pref = '- '
             if isinstance(dict_[key], dict):
                 result += f'{(spaces_count) * " "}{pref}"{key[2:]}": ' \
-                          f'{output_to_json(dict_[key], spaces_count + 2)}\n'
+                          f'{output_to_json(dict_[key], spaces_count + 2)},\n'
             else:
                 value = type_of_value(dict_[key])
-                if value:
-                    result += f'{(spaces_count) * " "}{pref}"{key[2:]}": ' \
-                              f'{value},\n'
-                else:
-                    result += f'{(spaces_count) * " "}{pref}"{key[2:]}":\n'
-
+                result += f'{(spaces_count) * " "}{pref}"{key[2:]}": {value},\n'
         else:
             if isinstance(dict_[key], dict):
                 result += f'{(spaces_count + 2) * " "}"{key}": ' \
-                          f'{output_to_json(dict_[key], spaces_count + 2)}\n'
+                          f'{output_to_json(dict_[key], spaces_count + 2)},\n'
             else:
                 value = type_of_value(dict_[key])
-                if value:
-                    result += f'{(spaces_count + 2) * " "}"{key}": {value},\n'
-                else:
-                    result += f'{(spaces_count + 2) * " "}"{key}":\n'
+                result += f'{(spaces_count + 2) * " "}"{key}": {value},\n'
+    result = result[:-2] + '\n'
     result += ' ' * spaces_count + '}'
     return result
