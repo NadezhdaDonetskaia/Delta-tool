@@ -31,7 +31,7 @@ def output_to_json(dict_, spaces_count=0):  # noqa: <error code>
                 value = type_of_value(dict_[key])
                 if value:
                     result += f'{(spaces_count) * " "}{pref}"{key[2:]}": ' \
-                              f'{value}\n'
+                              f'{value},\n'
                 else:
                     result += f'{(spaces_count) * " "}{pref}"{key[2:]}":\n'
 
@@ -42,7 +42,7 @@ def output_to_json(dict_, spaces_count=0):  # noqa: <error code>
             else:
                 value = type_of_value(dict_[key])
                 if value:
-                    result += f'{(spaces_count + 2) * " "}"{key}": {value}\n'
+                    result += f'{(spaces_count + 2) * " "}"{key}": {value},\n'
                 else:
                     result += f'{(spaces_count + 2) * " "}"{key}":\n'
     result += ' ' * spaces_count + '}'
