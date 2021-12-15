@@ -31,9 +31,9 @@ def test_generate_diff_json(ff, sf, format, answer):
 
 
 #  надо ли делать проверку на пустой файл? если да, то какие условия выхода пустого файла?
-empty_f1 = os.path.join(dirname, 'fixtures/empty_file1')
-empty_f2 = os.path.join(dirname, 'fixtures/empty_file2')
-
-
-def test_is_empty():
-    assert generate_diff(empty_f1, empty_f2) == '{}'
+# empty_f1 = os.path.join(dirname, 'fixtures/empty_file1')
+# empty_f2 = os.path.join(dirname, 'fixtures/empty_file2')
+# 
+# 
+# def test_is_empty():
+#     assert generate_diff(empty_f1, empty_f2) == '{}'

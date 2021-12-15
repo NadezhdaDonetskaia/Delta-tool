@@ -25,8 +25,9 @@ def read_file(path: str):
 def generate_diff(first_file: str, second_file: str, format='stylish') -> str:  # noqa: <error code>
     first_file = read_file(first_file)
     second_file = read_file(second_file)
-    if not first_file and not second_file:
-        return '{}'
+    # нужна ли проверка на пустые файлы?
+    # if not first_file and not second_file:
+    #     return '{}'
 
     def diff_of_dicts(dict1, dict2):
         result = dict()

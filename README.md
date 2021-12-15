@@ -8,6 +8,8 @@
 
 ### Codeclimate
 <a href="https://codeclimate.com/github/Nella611/python-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/cffe4b847322cd45b0e5/maintainability" /></a>
+###### Покрытие тестами:
+<a href="https://codeclimate.com/github/Nella611/python-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/cffe4b847322cd45b0e5/test_coverage" /></a>
 
 ### Step 1
 [![asciicast](https://asciinema.org/a/aeesiEZXekU0egLg9jIRFY5hZ.svg)](https://asciinema.org/a/aeesiEZXekU0egLg9jIRFY5hZ)

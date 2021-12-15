@@ -1,31 +1,3 @@
-#version: 2.1
-#jobs:
-#  test:
-#    docker:
-#      - image: <your_user_name>/tutorial_ci
-#    steps:
-#      - checkout
-#      - run:
-#         name: Setup Code Climate test-reporter
-#         command: |
-#          # download test reporter as a static binary
-#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-#            chmod +x ./cc-test-reporter
-#            ./cc-test-reporter before-build
-#      - run:
-#          name: Run tests
-#          command: |
-#            python -m pytest --cov-report xml --cov-report term --cov .
-#      - run:
-#          name: Send coverage to Code Climate
-#          command: |
-#            ./cc-test-reporter after-build --exit-code $?
-#workflows:
-#  test:
-#    jobs:
-#      - test
-
-
 name: pytest
 on: push
 jobs:
@@ -38,18 +10,16 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-      # - uses: paambaati/codeclimate-action@v3.0.0
-
       - name: Create Reporter
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
+          export CC_TEST_REPORTER_ID=c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
           ./cc-test-reporter before-build
       - name: Test
         run: |
-          pytest --cov-report term-missing --cov=gendiff
+          poetry run pytest --cov=gendiff --cov-report xml tests/
       - name: Sending Reporter
         run: |
-          pytest --cov-report xml:cov.xml
           ./cc-test-reporter after-build
 
