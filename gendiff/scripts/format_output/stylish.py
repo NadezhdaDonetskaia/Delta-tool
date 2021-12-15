@@ -8,8 +8,8 @@ def type_of_value(value):
         result = 'true'
     elif value is None:
         result = 'null'
-    elif not value:
-        result = None
+    # elif not value:
+    #     result = None
     else:
         result = value
     return result
