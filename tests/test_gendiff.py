@@ -41,5 +41,3 @@ def test_is_empty_file():
     assert generate_diff(empty_f1, empty_f2) == '{}'
     with pytest.raises(ValueError):
         generate_diff(first_json_file, empty_f1)
-
-
