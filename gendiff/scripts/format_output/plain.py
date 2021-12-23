@@ -19,26 +19,25 @@ def type_of_value(value):
 
 
 def plain(dict_, path='', child=False):  # noqa: <error code>
-    # нужна ли проверка на пустое значение?
-    # if not dict_:
-    #     return {}
     result = ''
-    sorted_keys = sorted(dict_.keys(),
-                         key=lambda x: x[2:] if x[:1] in ('+', '-') else x)
+    sorted_keys = sorted(dict_.keys())
     for key in sorted_keys:
-        if key[:1] == '-' and f'+{key[1:]}' in dict_:
-            value1 = type_of_value(dict_[key])
-            value2 = type_of_value(dict_[f'+{key[1:]}'])
-            result += f"Property '{path + key[2:]}' was updated. " \
-                      f"From {value1} to {value2}\n"
-        elif key[:1] == '-':
-            result += f"Property '{path + key[2:]}' was removed\n"
-        elif key[:1] == '+' and f'-{key[1:]}' not in dict_:
-            value = type_of_value(dict_[key])
-            result += f"Property '{path + key[2:]}' " \
-                      f"was added with value: {value}\n"
-        else:
-            if isinstance(dict_[key], dict):
+        if isinstance(dict_[key], dict):
+            if dict_[key].get('type') == 'changed':
+                value_del = type_of_value(dict_[key].get('value')[0])
+                value_add = type_of_value(dict_[key].get('value')[1])
+                result += f"Property '{path + key}' was updated. " \
+                          f"From {value_del} to {value_add}\n"
+            elif dict_[key].get('type') == 'deleted':
+                result += f"Property '{path + key}' was removed\n"
+            elif dict_[key].get('type') == 'added':
+                value_add = type_of_value(dict_[key].get('value'))
+                result += f"Property '{path + key}' " \
+                          f"was added with value: {value_add}\n"
+            elif dict_[key].get('type') == 'unchanged':
+                if isinstance(dict_[key].get('value'), dict):
+                    result += plain(dict_[key].get('value'), path=path + f'{key}.', child=True)  # noqa: <error code>
+            else:
                 result += plain(dict_[key], path=path + f'{key}.', child=True)
     if not child:
         result = result[:-1]

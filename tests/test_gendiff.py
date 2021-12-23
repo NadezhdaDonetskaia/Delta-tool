@@ -20,7 +20,9 @@ parameters_mark = [
     (first_branching_file, second_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
     (first_branching_file, second_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
     (first_yaml_branching_file, second_yaml_branching_file, 'stylish', 'fixtures/answer_for_stylish_branching'),
-    (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json')
+    (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json'),
+    (first_yaml_branching_file, second_yaml_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
+    (first_yaml_branching_file, second_yaml_branching_file, 'json', 'fixtures/answer_for_json'),
 ]
 
 
@@ -28,10 +30,16 @@ parameters_mark = [
 def test_generate_diff_json(ff, sf, format, answer):
     answer = open(os.path.join(dirname, answer))
     assert generate_diff(ff, sf, format) == answer.read()
+    answer.close()
 
 
-#  надо ли делать проверку на пустой файл? если да, то какие условия выхода пустого файла?
-# empty_f1 = os.path.join(dirname, 'fixtures/empty_file1')
-# empty_f2 = os.path.join(dirname, 'fixtures/empty_file2')
-# def test_is_empty():
-#     assert generate_diff(empty_f1, empty_f2) == '{}'
+empty_f1 = os.path.join(dirname, 'fixtures/empty_file1')
+empty_f2 = os.path.join(dirname, 'fixtures/empty_file2')
+
+
+def test_is_empty_file():
+    assert generate_diff(empty_f1, empty_f2) == '{}'
+    with pytest.raises(ValueError):
+        generate_diff(first_json_file, empty_f1)
+
+

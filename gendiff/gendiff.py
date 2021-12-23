@@ -2,7 +2,6 @@
 import argparse
 from gendiff import generate_diff
 
-
 parser = argparse.ArgumentParser(description='Generate diff', prog='gendiff',
                                  # usage='%(prog)s -f stylish'
                                  )
