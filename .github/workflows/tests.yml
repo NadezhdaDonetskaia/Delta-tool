@@ -22,5 +22,5 @@ jobs:
           pytest --cov=gendiff tests/ --cov-report xml
       - name: Sending Reporter
         run: |
-          ./cc-test-reporter after-build -r GITHUB_TOKEN
+          ./cc-test-reporter after-build -r --GITHUB_TOKEN
 
