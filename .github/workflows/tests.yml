@@ -1,7 +1,5 @@
 name: pytest
 on: push
-env: 
-  GITHUB_TOKEN: ${{ secrets.MINILAB_ID }}
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -21,7 +19,8 @@ jobs:
         run: |
           pytest --cov=gendiff tests/ --cov-report xml
       - name: Sending Reporter
+        env:
+          GITHUB_TOKEN: ${{ secrets.MINILAB_ID }}
         run: |
-          ./cc-test-reporter after-build -r c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
-#          "$GITHUB_TOKEN"
+          ./cc-test-reporter after-build -r "$GITHUB_TOKEN"
 
