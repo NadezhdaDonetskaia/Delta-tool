@@ -1,13 +1,13 @@
 name: pytest
 on: push
+env: 
+  GITHUB_TOKEN: ${{ secrets.MINILAB_ID }}
 jobs:
   push:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
-        uses: actions/checkout@v2
-        env: 
-          GITHUB_TOKEN: ${{ secrets.MINILAB_ID }}
+        uses: actions/checkout@v2        
       - name: Install Dependencies
         run: |
           pip install pytest
