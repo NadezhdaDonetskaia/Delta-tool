@@ -28,16 +28,20 @@ parameters_mark = [
 
 @pytest.mark.parametrize(('ff, sf, format, answer'), parameters_mark)
 def test_generate_diff_json(ff, sf, format, answer):
-    answer = open(os.path.join(dirname, answer))
-    assert generate_diff(ff, sf, format) == answer.read()
-    answer.close()
+    with open(os.path.join(dirname, answer)) as answer:
+        assert generate_diff(ff, sf, format) == answer.read()
 
 
 empty_f1 = os.path.join(dirname, 'fixtures/empty_file1')
 empty_f2 = os.path.join(dirname, 'fixtures/empty_file2')
+parameters_mark = [
+    (first_json_file, empty_f1),
+    (empty_f1, first_json_file),
+    (empty_f1, empty_f2),
+]
 
 
-def test_is_empty_file():
-    assert generate_diff(empty_f1, empty_f2) == '{}'
+@pytest.mark.parametrize(('ff, sf'), parameters_mark)
+def test_is_empty_file(ff, sf):
     with pytest.raises(ValueError):
-        generate_diff(first_json_file, empty_f1)
+        generate_diff(ff, sf)

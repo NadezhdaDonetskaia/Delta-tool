@@ -4,6 +4,8 @@ jobs:
   push:
     runs-on: ubuntu-latest
     steps:
+      - env:
+          GITHUB_TOKEN: ${{ secrets.MINILAB_ID }}
       - name: checkout repo
         uses: actions/checkout@v2
       - name: Install Dependencies
@@ -20,5 +22,5 @@ jobs:
           pytest --cov=gendiff tests/ --cov-report xml
       - name: Sending Reporter
         run: |
-          ./cc-test-reporter after-build -r c6cd69f90890f01df38e825c681b699de7f0761e48b9de27a5b1aeaf5d17c484
+          ./cc-test-reporter after-build -r GITHUB_TOKEN
 
