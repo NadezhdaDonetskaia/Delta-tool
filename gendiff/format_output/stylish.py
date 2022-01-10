@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
+import json
+
+
 def type_of_value(value):
-    if value is False:
-        result = 'false'
-    elif value is True:
-        result = 'true'
-    elif value is None:
-        result = 'null'
+    if isinstance(value, bool) or value is None:
+        result = json.dumps(value)
     else:
         result = value
     return result
