@@ -15,7 +15,7 @@ def diff_of_dicts(dict1, dict2):
                 'value': dict2[key],
                 'type': 'added',
             }
-        if dict1[key] == dict2[key]:
+        elif dict1[key] == dict2[key]:
             result[key] = {
                 'value': dict1[key],
                 'type': 'unchanged',

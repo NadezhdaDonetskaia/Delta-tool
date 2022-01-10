@@ -1,6 +1,6 @@
 from .stylish import stylish
 from .plain import plain
-from .output_to_json import output_to_json
+from .convert_to_json import convert_to_json
 
 
 def formatting(val, format):
@@ -9,4 +9,4 @@ def formatting(val, format):
     elif format == 'plain':
         return plain(val)
     elif format == 'json':
-        return output_to_json(val)
+        return convert_to_json(val)
