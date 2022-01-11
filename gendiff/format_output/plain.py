@@ -14,33 +14,37 @@ def transform_value(value):
     return result_value
 
 
-def formation_value(value, spaces):
-    pass
+def formation_answer(path, type):
+    answer = f"Property '{path}' was "
+    if type == 'changed':
+        answer += 'updated. '
+    elif type == 'deleted':
+        answer += 'removed\n'
+    elif type == 'added':
+        answer += 'added with value: '
+    return answer
 
 
-def plain(dict_, path='', child=False):
+def plain(dict_, path='', child=False):  # noqa: C901
     result = ''
     sorted_keys = sorted(dict_.keys())
     for key in sorted_keys:
-        if dict_[key].get('type') == 'changed':
-            value_del = dict_[key].get('value')[0]
-            value_del = transform_value(value_del)
-            value_add = dict_[key].get('value')[1]
-            value_add = transform_value(value_add)
-            result += f"Property '{path + key}' was updated. " \
-                      f"From {value_del} to {value_add}\n"
-        elif dict_[key].get('type') == 'deleted':
-            result += f"Property '{path + key}' was removed\n"
-        elif dict_[key].get('type') == 'added':
-            value_add = dict_[key].get('value')
-            value_add = transform_value(value_add)
-            result += f"Property '{path + key}' " \
-                      f"was added with value: {value_add}\n"
-        elif dict_[key].get('type') == 'unchanged':
-            pass
-        else:
+        type = dict_[key].get('type')
+        if type == 'unchanged':
+            continue
+        if dict_[key].get('type') == 'nested':
             new_value = dict_[key].get('value')
-            result += plain(new_value, path=path + f'{key}.', child=True)
+            result += plain(new_value, path=f'{path + key}.', child=True)
+            continue
+        result += formation_answer(f'{path + key}', type)
+        if type == 'changed':
+            value_del, value_add = dict_[key].get('value')
+            value_del = transform_value(value_del)
+            value_add = transform_value(value_add)
+            result += f'From {value_del} to {value_add}\n'
+        elif type == 'added':
+            value_add = transform_value(dict_[key].get('value'))
+            result += f'{value_add}\n'
     if not child:
         result = result[:-1]
     return result
