@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
 
-
+# change name
 def type_of_value(value):
     if isinstance(value, (list, tuple, dict, set)):
         result_value = '[complex value]'
@@ -14,7 +14,7 @@ def type_of_value(value):
     return result_value
 
 
-def plain(dict_, path='', child=False):  # noqa: <error code>
+def plain(dict_, path='', child=False):
     result = ''
     sorted_keys = sorted(dict_.keys())
     for key in sorted_keys:
@@ -31,7 +31,7 @@ def plain(dict_, path='', child=False):  # noqa: <error code>
                       f"was added with value: {value_add}\n"
         elif dict_[key].get('type') == 'unchanged':
             if isinstance(dict_[key].get('value'), dict):
-                result += plain(dict_[key].get('value'), path=path + f'{key}.', child=True)  # noqa: <error code>
+                result += plain(dict_[key].get('value'), path=path + f'{key}.', child=True)
         else:
             result += plain(dict_[key], path=path + f'{key}.', child=True)
     if not child:

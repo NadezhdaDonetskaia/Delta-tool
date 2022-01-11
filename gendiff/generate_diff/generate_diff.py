@@ -5,7 +5,7 @@ from .diff_of_dicts import diff_of_dicts
 from .parser import parser
 
 
-def generate_diff(first_path: str, second_path: str, format='stylish') -> str:  # noqa: <error code>
+def generate_diff(first_path: str, second_path: str, format='stylish') -> str:
     with open(first_path) as ff:
         first_file = parser(Path(first_path).suffix, ff)
         with open(second_path) as sf:
