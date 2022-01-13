@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-def diff_of_dicts(dict1, dict2):
+def get_difference_representation(dict1, dict2):
     result = dict()
     all_keys = set(list(dict1.keys()) + list(dict2.keys()))
     for key in all_keys:
@@ -23,7 +23,7 @@ def diff_of_dicts(dict1, dict2):
         elif isinstance(dict1[key], dict) \
                 and isinstance(dict2[key], dict):
             result[key] = {
-                'value': diff_of_dicts(dict1[key], dict2[key]),
+                'value': get_difference_representation(dict1[key], dict2[key]),
                 'type': 'nested',
             }
         else:
