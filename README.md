@@ -1,4 +1,4 @@
-###This application allows you to compare two files.
+### This application allows you to compare two files.
 It can be used to get information about file differences in three formats:
 1) stylish 
 2) plain
