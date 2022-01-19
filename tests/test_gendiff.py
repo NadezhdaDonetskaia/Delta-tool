@@ -13,6 +13,8 @@ first_branching_file = os.path.join(dirname, 'fixtures/file1_branching.json')
 second_branching_file = os.path.join(dirname, 'fixtures/file2_branching.json')
 first_yaml_branching_file = os.path.join(dirname, 'fixtures/file1_branching.yaml')
 second_yaml_branching_file = os.path.join(dirname, 'fixtures/file2_branching.yml')
+first_empty_json_file = os.path.join(dirname, 'fixtures/empty_json1.json')
+second_empty_json_file = os.path.join(dirname, 'fixtures/empty_json1.json')
 
 parameters_mark = [
     (first_json_file, second_json_file, 'stylish', 'fixtures/answer_for_stylish_flat'),
@@ -23,6 +25,7 @@ parameters_mark = [
     (first_branching_file, second_branching_file, 'json', 'fixtures/answer_for_json'),
     (first_yaml_branching_file, second_yaml_branching_file, 'plain', 'fixtures/answer_for_plain_branching'),
     (first_yaml_branching_file, second_yaml_branching_file, 'json', 'fixtures/answer_for_json'),
+    (first_empty_json_file, second_empty_json_file, 'json', 'fixtures/answer_for_empty_json'),
 ]
 
 
@@ -43,5 +46,6 @@ parameters_mark = [
 
 @pytest.mark.parametrize(('ff, sf'), parameters_mark)
 def test_is_empty_file(ff, sf):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as e:
         generate_diff(ff, sf)
+        print(e)

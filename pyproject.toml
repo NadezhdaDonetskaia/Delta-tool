@@ -18,13 +18,13 @@ url = 'https://github.com/Nella611/python-project-lvl2'
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pytest = "^6.2.5"
-pytest-cov = "^3.0.0"
 PyYAML = "^6.0"
-coverage = "^6.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+coverage = "^6.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

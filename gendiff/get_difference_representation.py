@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 def get_difference_representation(dict1, dict2):
     result = dict()
     all_keys = set(list(dict1.keys()) + list(dict2.keys()))
